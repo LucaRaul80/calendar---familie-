@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Family Birthday Calendar</title>
+</head>
+<body>
+
+<h2>Family Birthday Calendar 🎂</h2>
+
+<input type="text" id="name" placeholder="Name">
+<input type="date" id="date">
+<button onclick="addBirthday()">Add</button>
+
+<ul id="list"></ul>
+
+<script>
+let birthdays = JSON.parse(localStorage.getItem("birthdays")) || [];
+
+function addBirthday() {
+  let name = document.getElementById("name").value;
+  let date = document.getElementById("date").value;
+
+  birthdays.push({ name, date });
+  localStorage.setItem("birthdays", JSON.stringify(birthdays));
+  display();
+}
+
+function display() {
+  let list = document.getElementById("list");
+  list.innerHTML = "";
+
+  birthdays.forEach(b => {
+    let li = document.createElement("li");
+    li.textContent = b.name + " - " + b.date;
+    list.appendChild(li);
+  });
+}
+
+function checkBirthdays() {
+  let today = new Date().toISOString().slice(5,10);
+
+  birthdays.forEach(b => {
+    if (b.date.slice(5,10) === today) {
+      alert("🎉 Today is " + b.name + "'s birthday!");
+    }
+  });
+}
+
+display();
+checkBirthdays();
+</script>
+
+</body>
+</html>
